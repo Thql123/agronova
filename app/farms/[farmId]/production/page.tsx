@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { mockBatches } from "./mock-batches";
 
 export const metadata: Metadata = {
@@ -6,7 +7,8 @@ export const metadata: Metadata = {
   description: "Manage livestock batches, stock level, age, mortality, weights, feed intake and yield.",
 };
 
-export default function ProductionPage() {
+export default async function ProductionPage({ params }: { params: Promise<{ farmId: string }> }) {
+  const { farmId } = await params;
   return (
     <div className="flex min-h-[calc(100dvh-155px)] min-w-0 flex-col sm:min-h-[calc(100dvh-163px)] lg:min-h-[calc(100dvh-171px)] xl:min-h-[calc(100dvh-96px)] xl:px-[22px] xl:pt-6">
       <div className="mb-5 flex shrink-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -68,7 +70,7 @@ export default function ProductionPage() {
             <tbody>
               {mockBatches.map((batch) => (
                 <tr key={batch.id} className="font-semibold">
-                  <th scope="row" className="px-5 py-2.5 text-left font-semibold">{batch.id}</th>
+                  <th scope="row" className="px-5 py-2.5 text-left font-semibold"><Link href={`/farms/${encodeURIComponent(farmId)}/production/${encodeURIComponent(batch.id)}`} className="rounded-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black">{batch.id}</Link></th>
                   <td className="px-2 py-2.5 text-center">{batch.speciesBreed}</td>
                   <td className="px-2 py-2.5 text-center">{batch.count}</td>
                   <td className="px-2 py-2.5 text-center">{batch.ageWeeks}W</td>
