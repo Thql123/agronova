@@ -7,7 +7,7 @@ import { FarmIcon, type FarmIconName } from "./farm-icon";
 const navigation: { label: string; segment: string; icon: FarmIconName; available?: boolean }[] = [
   { label: "Dashboard", segment: "dashboard", icon: "dashboard", available: true },
   { label: "Production", segment: "production", icon: "production", available: true },
-  { label: "Feed and Inventory", segment: "inventory", icon: "inventory" },
+  { label: "Feed and Inventory", segment: "inventory", icon: "inventory", available: true },
   { label: "Finances", segment: "finances", icon: "finances" },
   { label: "Analytics", segment: "analytics", icon: "analytics" },
   { label: "Meeting", segment: "meeting", icon: "meeting" },
