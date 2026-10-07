@@ -1,0 +1,26 @@
+@media (min-width: 80rem) {
+  .scrollArea {
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #f4f4f4;
+    scrollbar-gutter: stable;
+    /* Keep the track discoverable even when all fields fit the workspace. */
+    background-image: linear-gradient(#f4f4f4, #f4f4f4);
+    background-position: right top;
+    background-size: 6px 100%;
+    background-repeat: no-repeat;
+  }
+
+  .scrollArea::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollArea::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 999px;
+  }
+
+  .scrollArea::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 999px;
+  }
+}

@@ -10,7 +10,7 @@ const navigation: { label: string; segment: string; icon: FarmIconName; availabl
   { label: "Feed and Inventory", segment: "inventory", icon: "inventory", available: true },
   { label: "Finances", segment: "finances", icon: "finances", available: true },
   { label: "Analytics", segment: "analytics", icon: "analytics", available: true },
-  { label: "Meeting", segment: "meeting", icon: "meeting" },
+  { label: "Meeting", segment: "meetings", icon: "meeting", available: true },
   { label: "Team", segment: "team", icon: "team" },
   { label: "AI", segment: "ai", icon: "ai" },
   { label: "Marketplace", segment: "marketplace", icon: "marketplace" },
