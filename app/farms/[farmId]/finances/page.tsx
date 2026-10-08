@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DemoDataNotice } from "../_components/demo-data-notice";
 import { mockFinancialSummary, mockTransactionCount } from "./mock-finances";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function FinancesPage() {
         </div>
       </div>
 
+      <DemoDataNotice module="finance" />
       <div className="mb-3.5 flex shrink-0 flex-col gap-3.5 xl:flex-row xl:items-start xl:justify-between">
         <div className="grid w-full min-w-0 grid-cols-1 gap-3.5 sm:grid-cols-2 xl:max-w-[902px] xl:grid-cols-[repeat(4,minmax(0,215px))]">
           {metrics.map((metric) => (
