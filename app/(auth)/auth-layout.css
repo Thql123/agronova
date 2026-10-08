@@ -1,0 +1,187 @@
+/* Desktop spacing responds to height as well as width. Content can still grow
+   naturally on very short viewports or when validation messages are present. */
+@media (min-width: 64rem) {
+  .agriflow-auth {
+    --panel-padding: clamp(24px, 3dvh, 40px);
+    --content-gap: clamp(12px, 1.8dvh, 20px);
+  }
+
+  .agriflow-auth [data-auth-marketing],
+  .agriflow-auth [data-auth-panel] {
+    padding-block: var(--panel-padding);
+  }
+
+  .agriflow-auth [data-auth-marketing] > div:first-child {
+    font-size: 20px;
+  }
+
+  .agriflow-auth [data-auth-marketing] > div:first-child > span {
+    width: 36px;
+    height: 36px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] {
+    margin-top: clamp(28px, 5dvh, 64px);
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > p:first-child {
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] h2 {
+    font-size: clamp(28px, 3.5dvh, 38px);
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > p:not(:first-child) {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .agriflow-auth [aria-label="Sample farm portfolio figures"] {
+    margin-top: var(--content-gap);
+    gap: 16px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] section {
+    min-height: 0;
+    padding: clamp(16px, 2dvh, 22px);
+  }
+
+  .agriflow-auth [aria-label="Sample farm portfolio figures"] h3 {
+    font-size: 10px;
+  }
+
+  .agriflow-auth [aria-label="Sample farm portfolio figures"] p:first-of-type {
+    margin-top: 8px;
+    font-size: clamp(24px, 2.8dvh, 30px);
+  }
+
+  .agriflow-auth [aria-label="Sample farm portfolio figures"] p:last-child {
+    margin-top: 8px;
+    font-size: 11px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section {
+    margin-top: 16px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section > div:first-child {
+    margin-bottom: 16px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section h3 {
+    font-size: 14px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section span {
+    font-size: 12px;
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section > div:last-child > div + div {
+    margin-top: var(--content-gap);
+  }
+
+  .agriflow-auth [data-auth-marketing-content] > section p {
+    margin-top: 6px;
+    font-size: 11px;
+  }
+
+  .agriflow-auth [data-auth-panel] > nav {
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .agriflow-auth [data-auth-mode] {
+    padding-block: clamp(8px, 1.5dvh, 20px);
+  }
+
+  .agriflow-auth [data-auth-mode] > div {
+    max-width: 420px;
+  }
+
+  .agriflow-auth [data-auth-mode] h1 {
+    font-size: clamp(28px, 3dvh, 32px);
+  }
+
+  .agriflow-auth [data-auth-mode] > div > p:first-child {
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  .agriflow-auth [data-auth-mode] h1 + p {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .agriflow-auth [data-auth-mode] form {
+    --field-height: 44px;
+    --field-gap: 16px;
+  }
+
+  .agriflow-auth [data-auth-mode="sign-up"] form {
+    --field-height: 40px;
+    --field-gap: clamp(10px, 1.4dvh, 14px);
+  }
+
+  .agriflow-auth form > div:first-child > div + div {
+    margin-top: var(--field-gap);
+  }
+
+  .agriflow-auth form label {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .agriflow-auth form label[for] {
+    margin-bottom: 4px;
+  }
+
+  .agriflow-auth form input:not([type="checkbox"]),
+  .agriflow-auth form button[type="submit"] {
+    height: var(--field-height);
+    font-size: 14px;
+  }
+
+  .agriflow-auth form p {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .agriflow-auth form [id$="-hint"] {
+    margin-top: 6px;
+  }
+
+  .agriflow-auth form > div:not(:first-child) {
+    margin-top: 12px;
+  }
+
+  .agriflow-auth form button[type="submit"] {
+    margin-top: 16px;
+  }
+
+  .agriflow-auth form > p {
+    margin-top: 8px;
+  }
+
+  .agriflow-auth form > p:empty {
+    margin-top: 0;
+  }
+
+  .agriflow-auth [data-auth-mode] form + p,
+  .agriflow-auth [data-auth-mode] form + p + p {
+    margin-top: 20px;
+    font-size: 12px;
+  }
+
+  .agriflow-auth [data-auth-panel] > footer {
+    flex-shrink: 0;
+    margin-top: 12px;
+    font-size: 11px;
+  }
+}
