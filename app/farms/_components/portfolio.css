@@ -1,0 +1,29 @@
+.portfolio-shell { display: grid; grid-template-columns: minmax(0, 1fr); }
+.portfolio-main { min-width: 0; padding: 16px; }
+.portfolio-desktop-sidebar { display: none; }
+.portfolio-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.portfolio-menu-mark { display: none; }
+.portfolio-mobile-brand { font-size: 14px; font-weight: 600; }
+.portfolio-summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-bottom: 24px; }
+.portfolio-summary > section { min-width: 0; min-height: 114px; border: 1px solid #d6d6d6; border-radius: 24px; background: #f7f7f7; padding: 20px; }
+.portfolio-farm-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.portfolio-farm-grid > article { min-width: 0; border-radius: 26px; }
+.portfolio-overview-panels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.portfolio-overview-panels > section { min-width: 0; border: 1px solid #d6d6d6; border-radius: 28px; background: #f7f7f7; padding: 20px; }
+@media (min-width: 40rem) {
+  .portfolio-main { padding: 24px; }
+  .portfolio-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .portfolio-farm-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 80rem) {
+  .portfolio-shell { grid-template-columns: 240px minmax(0, 1fr); align-items: start; }
+  .portfolio-desktop-sidebar { position: sticky; top: 0; display: flex; flex-direction: column; width: 240px; height: 100dvh; min-height: 0; border-right: 1px solid #eee; background: white; }
+  .portfolio-main { padding: 16px 22px 28px; }
+  .portfolio-toolbar > div, .portfolio-mobile-brand { display: none; }
+  .portfolio-menu-mark { display: inline; }
+  .portfolio-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .portfolio-summary-overview { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .portfolio-summary-overview > section { min-height: 176px; display: flex; flex-direction: column; justify-content: center; }
+  .portfolio-farm-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .portfolio-overview-panels { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+}
