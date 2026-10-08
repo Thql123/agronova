@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { requireUser } from "@/lib/supabase/require-user";
 import { FarmIcon } from "./_components/farm-icon";
 import { FarmSidebar } from "./_components/farm-sidebar";
 import { MobileFarmNavigation } from "./_components/mobile-farm-navigation";
@@ -7,6 +8,7 @@ import { MobileFarmNavigation } from "./_components/mobile-farm-navigation";
 export const metadata: Metadata = { title: "Farm Dashboard | Agriflow", description: "Your farm at a glance." };
 
 async function FarmShell({ children, params }: { children: React.ReactNode; params: Promise<{ farmId: string }> }) {
+  await requireUser();
   const { farmId } = await params;
   // Temporary display identity until farm data is introduced.
   const farmName = "Farm Name";
