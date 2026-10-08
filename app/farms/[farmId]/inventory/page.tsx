@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { DemoDataNotice } from "../_components/demo-data-notice";
 import { mockInventoryItems, mockInventorySummary } from "./mock-inventory";
 
 export const metadata: Metadata = {
   title: "Feed & Inventory | Agriflow",
-  description: "Real-time stock tracking with predictive depletion alerts.",
+  description: "Demo inventory overview. Live stock tracking is not connected yet.",
 };
 
 export default function InventoryPage() {
@@ -24,6 +25,7 @@ export default function InventoryPage() {
         </div>
       </div>
 
+      <DemoDataNotice module="inventory" />
       <div className="mb-3.5 grid w-full max-w-[444px] shrink-0 grid-cols-1 gap-3.5 sm:grid-cols-[repeat(2,minmax(0,215px))]">
         <section aria-labelledby="total-items-title" className="min-h-[103px] rounded-[22px] border border-[#d6d6d6] bg-white px-3.5 py-3">
           <h2 id="total-items-title" className="text-[11px] leading-4 tracking-[0.1em] text-[#262626] uppercase">Total Items</h2>

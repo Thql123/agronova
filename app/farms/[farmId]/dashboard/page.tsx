@@ -1,4 +1,5 @@
 import { FarmIcon } from "../_components/farm-icon";
+import { DemoDataNotice } from "../_components/demo-data-notice";
 
 const metrics = [
   { label: "Revenue (This Month)", value: "₦0.5M", detail: "0% margin", change: "+20%" },
@@ -44,6 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="flex min-w-0 flex-col gap-4 sm:gap-5 xl:min-h-[calc(100dvh-96px)] xl:gap-[14px]">
       <h1 className="sr-only">Farm dashboard</h1>
+      <DemoDataNotice module="dashboard" />
       <div className="grid shrink-0 grid-cols-1 gap-[14px] sm:grid-cols-2 xl:max-w-[1266px] xl:grid-cols-[repeat(4,minmax(0,306px))]">
         {metrics.map((metric) => <section key={metric.label} aria-label={metric.label} className="flex min-h-[103px] min-w-0 flex-col justify-between rounded-[30px] border border-[#CCCCCC] bg-white px-[14px] py-3 xl:h-[145px]">
           <h2 className="text-[11px] leading-[14px] font-normal tracking-[0.1em] text-[#262626] uppercase">{metric.label}</h2>
@@ -54,7 +56,7 @@ export default function DashboardPage() {
         <section aria-labelledby="weight-trend-title" className="min-h-[280px] min-w-0 rounded-[28px] bg-white p-5 sm:min-h-[320px] sm:p-7">
           <h2 id="weight-trend-title" className="text-[24px] leading-[1] font-semibold tracking-normal text-[#000000]">Weight Trend (30 Days)</h2>
           <p className="text-[16px] leading-[1] font-normal tracking-normal text-[#000000]">Average weight recorded across each active batch.</p>
-          {/* Reserved plotting area, intentionally empty to match the reference. */}
+          <p className="mt-6 text-sm leading-5 text-[#606060]">No live weight trend available. Daily recording is not connected yet.</p>
         </section>
         <div className="grid min-w-0 gap-4 sm:gap-5 xl:grid-rows-[minmax(340px,1fr)_minmax(147px,auto)] xl:gap-6">
           <FarmChart />

@@ -14,9 +14,6 @@ export async function completeEmailConfirmation(request: NextRequest, supabase: 
   if (!session) return authRedirect(request, "/auth/error");
   const { data, error } = await supabase.auth.getUser(session.access_token);
   if (error || !data.user?.email_confirmed_at) return authRedirect(request, "/auth/error");
-  // Revoke only the newly established browser session, preserving other devices.
-  const { error: signOutError } = await supabase.auth.signOut({ scope: "local" });
-  if (signOutError) return authRedirect(request, "/auth/error");
   const response = authRedirect(request, "/auth/confirmed");
   response.cookies.set(confirmationCookie, session.access_token, {
     httpOnly: true, secure: request.nextUrl.protocol === "https:", sameSite: "lax",
@@ -30,10 +27,12 @@ export async function validConfirmationReceipt(token: string) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.getClaims(token);
     if (error || !data?.claims) return false;
-    const { iat, amr } = data.claims;
+    const { iat } = data.claims;
     const age = Math.floor(Date.now() / 1000) - iat;
     // Supabase signs these claims; a URL parameter or unsigned cookie is insufficient.
-    return age >= 0 && age < lifetime && Array.isArray(amr) && amr.some(entry => typeof entry === "string" ? entry === "otp" : entry.method === "otp");
+    if (!(age >= 0 && age < lifetime)) return false;
+    const { data: verified, error: userError } = await supabase.auth.getUser(token);
+    return !userError && !!verified.user?.email_confirmed_at;
   } catch {
     return false;
   }

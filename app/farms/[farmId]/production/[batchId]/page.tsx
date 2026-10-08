@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { mockBatches } from "../mock-batches";
-import { mockDailyRecords } from "../mock-daily-records";
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { requireBatch } from "@/lib/batches";
+import { requireFarm } from "@/lib/farms";
+import { batchAgeWeeks } from "@/lib/batch-types";
 
 export const metadata: Metadata = { title: "Batch Record | Agriflow" };
 
@@ -12,32 +14,31 @@ const exportControls = [
   { label: "Share", path: "m6 12 12-7M6 12l12 7M4 10h4v4H4zM16 3h4v4h-4zM16 17h4v4h-4z" },
 ];
 
-export default async function BatchRecordPage({ params }: { params: Promise<{ farmId: string; batchId: string }> }) {
+async function BatchRecord({ params }: { params: Promise<{ farmId: string; batchId: string }> }) {
+  await connection();
   const { farmId, batchId } = await params;
-  const batch = mockBatches.find((candidate) => candidate.id === batchId);
-  if (!batch) notFound();
-
-  const summary = batch.recordSummary;
-  const dailyRecords = mockDailyRecords.filter((record) => record.batchId === batch.id);
+  const farm = await requireFarm(farmId);
+  const batch = await requireBatch(farmId, batchId);
+  const age = batchAgeWeeks(batch, new Date().toISOString().slice(0, 10));
   const productionUrl = `/farms/${encodeURIComponent(farmId)}/production`;
   const summaryFields = [
-    { label: "Species", value: summary.species },
-    { label: "Breed", value: summary.breed },
-    { label: "Category", value: summary.category },
-    { label: "Date Added", value: summary.dateAdded },
-    { label: "Age", value: `${summary.ageWeeks} wks` },
-    { label: "Avg. Weight", value: `${summary.averageWeightKg}kg` },
-    { label: "Total Mortality", value: summary.totalMortality },
+    { label: "Species", value: batch.species },
+    { label: "Breed", value: batch.breed },
+    { label: "Status", value: batch.health_status },
+    { label: "Date Added", value: batch.date_added },
+    { label: "Age", value: `${age} wks` },
+    { label: "Avg. Weight", value: `${batch.initial_average_weight_kg}kg` },
+    { label: "Total Mortality", value: "Not recorded yet" },
   ];
 
   return (
     <div className="flex min-h-[calc(100dvh-155px)] min-w-0 flex-col sm:min-h-[calc(100dvh-163px)] lg:min-h-[calc(100dvh-171px)] xl:min-h-[calc(100dvh-96px)] xl:px-[22px] xl:pt-6">
-      <h1 className="sr-only">Batch Record: {batch.id}</h1>
+      <h1 className="sr-only">Batch Record: {batch.batch_code}</h1>
       <div className="mb-5 flex shrink-0 flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="min-w-0">
           <nav aria-label="Breadcrumb" className="mb-2 text-[11px] leading-4 font-medium">
             <ol className="flex flex-wrap items-center gap-1.5">
-              <li><Link href={`/farms/${encodeURIComponent(farmId)}/dashboard`} className="rounded-sm text-[#808080] hover:underline focus-visible:outline-2">Farm 1</Link></li>
+              <li><Link href={`/farms/${encodeURIComponent(farmId)}/dashboard`} className="rounded-sm text-[#808080] hover:underline focus-visible:outline-2">{farm.name}</Link></li>
               <li aria-hidden="true" className="text-[#808080]">········</li>
               <li><Link href={productionUrl} className="rounded-sm text-[#808080] hover:underline focus-visible:outline-2">Production</Link></li>
               <li aria-hidden="true" className="text-[#808080]">········</li>
@@ -52,14 +53,14 @@ export default async function BatchRecordPage({ params }: { params: Promise<{ fa
         <div className="flex shrink-0 flex-col items-start gap-2 lg:items-end">
           <div className="flex items-center gap-2">
             <span className="text-[9px] tracking-[0.1em] uppercase">Assigned:</span>
-            <button type="button" disabled aria-label={`${summary.assignedCount} people assigned (assignment controls coming soon)`} className="flex items-center gap-2 rounded-full bg-white p-1 text-[11px] font-semibold">
+            <button type="button" disabled aria-label={`${"Not assigned"} (assignment controls coming soon)`} className="flex items-center gap-2 rounded-full bg-white p-1 text-[11px] font-semibold">
               <span className="flex size-6 items-center justify-center rounded-full bg-[#dedede]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg></span>
-              {summary.assignedCount}
+              {"Not assigned"}
               <span className="ml-1 flex size-5 items-center justify-center rounded-full bg-black text-white"><svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="m2 3 3 4 3-4Z" /></svg></span>
             </button>
           </div>
-          <button type="button" disabled aria-label={`Selected batch ${batch.id} (switching coming soon)`} className="flex h-[42px] w-[152px] max-w-full items-center justify-between gap-3 rounded-lg border border-[#CCCCCC] bg-white px-3 text-[11px] font-semibold">
-            {batch.id}<svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="m1 3 4 4 4-4Z" /></svg>
+          <button type="button" disabled aria-label={`Selected batch ${batch.batch_code} (switching coming soon)`} className="flex h-[42px] w-[152px] max-w-full items-center justify-between gap-3 rounded-lg border border-[#CCCCCC] bg-white px-3 text-[11px] font-semibold">
+            {batch.batch_code}<svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><path d="m1 3 4 4 4-4Z" /></svg>
           </button>
         </div>
       </div>
@@ -80,28 +81,20 @@ export default async function BatchRecordPage({ params }: { params: Promise<{ fa
         </div>
         <div className="max-w-full overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-[-2px]" tabIndex={0} role="region" aria-label="Daily records table, scroll horizontally on smaller screens">
           <table className="w-full min-w-[1040px] border-collapse whitespace-nowrap text-[10px] leading-4">
-            <caption className="sr-only">Daily records for batch {batch.id}</caption>
+            <caption className="sr-only">Daily records for batch {batch.batch_code}</caption>
             <thead className="border-y border-[#d6d6d6] bg-[#f2f2f2] text-[9px] tracking-[0.1em]">
               <tr>{["Date", "Stock Level", "Feed Type", "Feed Intake", "Daily Weight Gain", "Medication", "Mortality", "Recorded By", "Notes", "Actions"].map((label, index) => <th key={label} scope="col" className={`py-3 font-normal uppercase ${index === 0 ? "px-5 text-left" : "px-2 text-center"}`}>{label}</th>)}</tr>
             </thead>
             <tbody>
-              {dailyRecords.map((record) => <tr key={record.id}>
-                <th scope="row" className="px-5 py-2.5 text-left font-normal">{record.date}</th>
-                <td className="px-2 py-2.5 text-center">{record.stockLevel}</td>
-                <td className="px-2 py-2.5 text-center">{record.feedType}</td>
-                <td className="px-2 py-2.5 text-center">{record.feedIntakeKg} KG</td>
-                <td className="px-2 py-2.5 text-center">{record.dailyWeightGain >= 0 ? "+" : ""}{record.dailyWeightGain.toFixed(2)}</td>
-                <td className="px-2 py-2.5 text-center">{record.medication}</td>
-                <td className="px-2 py-2.5 text-center">{record.mortality}</td>
-                <td className="px-2 py-2.5 text-center">{record.recordedBy}</td>
-                <td className="px-2 py-2.5 text-center">{record.notes}</td>
-                <td className="px-2 py-2.5 text-center"><button type="button" disabled aria-label={`Actions for daily record ${record.date} (coming soon)`} className="inline-flex size-6 items-center justify-center rounded-md bg-[#f4f4f4]"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="4" cy="8" r="1.3" /><circle cx="8" cy="8" r="1.3" /><circle cx="12" cy="8" r="1.3" /></svg></button></td>
-              </tr>)}
-              {dailyRecords.length === 0 && <tr><td colSpan={10} className="px-5 py-8 text-center text-[#606060]">No daily records yet.</td></tr>}
+              <tr><td colSpan={10} className="px-5 py-8 text-center text-[#606060]">No daily records yet. Daily recording is not connected.</td></tr>
             </tbody>
           </table>
         </div>
       </section>
     </div>
   );
+}
+
+export default function BatchRecordPage(props: { params: Promise<{ farmId: string; batchId: string }> }) {
+  return <Suspense fallback={<p role="status" className="p-5 text-sm">Loading batch details...</p>}><BatchRecord {...props} /></Suspense>;
 }
