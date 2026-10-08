@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
   const authenticated = !error && !!data?.claims?.sub;
   const path = request.nextUrl.pathname;
   let destination: string | undefined;
-  if (path.startsWith("/farms") && !authenticated) destination = "/login";
+  if ((path.startsWith("/farms") || path === "/overview") && !authenticated) destination = "/login";
   if ((path === "/login" || path === "/sign-up") && authenticated) destination = "/farms";
   if (destination) {
     const url = request.nextUrl.clone();
@@ -40,5 +40,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/farms/:path*", "/login", "/sign-up"],
+  matcher: ["/farms/:path*", "/overview", "/login", "/sign-up"],
 };
